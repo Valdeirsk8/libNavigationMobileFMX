@@ -1,0 +1,26 @@
+inherited frmFrame1: TfrmFrame1
+  object lytPrincipal: TLayout
+    Align = Client
+    Size.Width = 330.000000000000000000
+    Size.Height = 452.000000000000000000
+    Size.PlatformDefault = False
+    object Rectangle1: TRectangle
+      Align = Contents
+      Fill.Color = xFF4F74FF
+      Size.Width = 330.000000000000000000
+      Size.Height = 452.000000000000000000
+      Size.PlatformDefault = False
+      Stroke.Kind = None
+      OnClick = lbCenterClick
+    end
+    object lbCenter: TLabel
+      Align = Center
+      AutoSize = True
+      Size.Width = 221.000000000000000000
+      Size.Height = 16.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'lbCenter'
+      OnClick = lbCenterClick
+    end
+  end
+end

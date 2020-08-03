@@ -7,52 +7,64 @@ uses
 
   System.Generics.Collections,
 
-  uFormItem;
+  uFormItem, uInterfaces;
 
 type
-  TFormBase = Class;
+  //TFormBase = Class;
 
-  TListFormItem<IFormItem> = Class(TStack<uFormItem.IFormItem>)
-  Private
-    FFormHomePage:uFormItem.IFormItem;
-    procedure DestroyForm(Form: uFormItem.IFormItem);
-  public
-    procedure SetHomePage(Base:uFormItem.IFormItem);
-    procedure GoHomePage();
-    function isHomePage(aForm:uFormItem.IFormItem):Boolean;
-    procedure CleanOut(ManterHomePage:Boolean = False);
-  End;
-
-  TFormBase = Class(TForm)
+  TFormBase = Class(TForm, IFormBase)
   Strict private
-    FlistaForms:TListFormItem<uFormItem.IFormItem>;
-    FListaFormsMenu: TListFormItem<uFormItem.IFormITem>;
+    FListForms: TListFormItem;
+    FListMenuForms: TListFormItem;
   protected
-    procedure OnNotify(Sender:TObject; const Item: uFormItem.IFormItem; Action: TCollectionNotification);
+    procedure OnNotify(Sender:TObject; const Item: IFormItem; Action: TCollectionNotification);
+
+  private
+    function  GetListForms():TListFormItem;
+    procedure SetListForms(aValue:TListFormItem);
+
+    function  GetListMenuForms(): TListFormItem;
+    procedure SetListMenuForms(aValue:TListFormItem);
+
   public
     function GetLayout():TLayout; virtual; abstract;
     function GetLayoutMenu:TLayout; virtual; abstract;
 
-    property ListaForms:TListFormItem<uFormItem.IFormItem> read FlistaForms write FlistaForms;
-    property ListaFormsMenu: TListFormItem<uFormItem.IFormITem> read FListaFormsMenu write FListaFormsMenu;
-
     constructor Create(AOwner: TComponent);virtual;
     destructor Destroy;
 
+    property ListForms     : TListFormItem read GetListForms     write SetListForms;
+    property ListMenuForms : TListFormItem read GetListMenuForms write SetListMenuForms;
   End;
 
 implementation
 
-function TListFormItem<IFormItem>.isHomePage(aForm:uFormItem.IFormItem):Boolean;
+
+function TFormBase.GetListForms(): TListFormItem;
 begin
-  Result := (Self.FFormHomePage = aForm);
+  Result := FListForms;
 end;
 
-procedure TFormBase.OnNotify(Sender:TObject; Const Item: uFormItem.IFormItem; Action: TCollectionNotification);
-Var
-  List:TListFormItem<uFormItem.IFormItem>;
+function TFormBase.GetListMenuForms(): TListFormItem;
 begin
-  List := (Sender as TListFormItem<uFormItem.IFormItem>);
+  Result := FListMenuForms;
+end;
+
+procedure TFormBase.SetListForms(aValue:TListFormItem);
+begin
+  Self.FListForms := aValue;
+end;
+
+procedure TFormBase.SetListMenuForms(aValue:TListFormItem);
+begin
+  Self.FListMenuForms := aValue;
+end;
+
+procedure TFormBase.OnNotify(Sender:TObject; const Item: IFormItem; Action: TCollectionNotification);
+Var
+  List:TListFormItem;
+begin
+  List := (Sender as TListFormItem);
 
   case Action of
     cnAdded: begin
@@ -65,8 +77,9 @@ begin
 
     cnRemoved: begin
       Item.GetAownerLayout().RemoveObject(Item.GetLayoutPrincipal());
-      Item.GetAownerLayout().AddObject(List.ToArray[List.Count -1].GetLayoutPrincipal());
-      TForm(Item).DisposeOf();
+      Item.GetAownerLayout().AddObject(List.Peek().GetLayoutPrincipal());
+
+      TFrame(Item).Free();
 
       list.Peek().afterReturnToTop;
     end;
@@ -78,60 +91,21 @@ begin
 end;
 
 constructor TFormBase.Create(AOwner: TComponent);
-var
-  MsgErro: string;
 begin
-  FlistaForms := TListFormItem<IFormItem>.Create();
-  FlistaForms.OnNotify := Self.OnNotify;
+  FlistForms          := TListFormItem.Create();
+  FlistForms.OnNotify := Self.OnNotify;
 
-  FListaFormsMenu := TListFormItem<IFormItem>.Create();
-  FListaFormsMenu.OnNotify := Self.OnNotify;
+  FListMenuForms          := TListFormItem.Create();
+  FListMenuForms.OnNotify := Self.OnNotify;
 end;
 
 
 destructor TFormBase.Destroy;
 begin
-  FListaForms.CleanOut();
-  FreeAndNil(FListaForms);
+  FListForms.CleanOut();
+  FreeAndNil(FListForms);
 end;
 
-procedure TListFormItem<IFormItem>.SetHomePage(Base:uFormItem.IFormItem);
-begin
-  FFormHomePage := Base;
-end;
-
-procedure TListFormItem<IFormItem>.GoHomePage();
-begin
-  Self.CleanOut(True);
-  Self.Push(Self.FFormHomePage)
-end;
-
-procedure TListFormItem<IFormItem>.CleanOut(ManterHomePage:Boolean);
-var
-  Form: uFormItem.IFormItem;
-  Notify:TCollectionNotifyEvent<uFormItem.IFormItem>;
-
-begin
-  Notify := Self.OnNotify;
-  Self.OnNotify := nil;
-
-  while Self.Count > 0 do begin
-    Form := Self.Pop;
-
-    if not (ManterHomePage) then
-      DestroyForm(Form)
-    else if Form <> Self.FFormHomePage then
-      DestroyForm(Form);
-  end;
-
-  Self.OnNotify := Notify;
-end;
-
-procedure TListFormItem<IFormItem>.DestroyForm(Form: uFormItem.IFormItem);
-begin
-  Form.GetAownerLayout().RemoveObject(Form.GetLayoutPrincipal());
-  TForm(Form).DisposeOf()
-end;
 
 end.
 

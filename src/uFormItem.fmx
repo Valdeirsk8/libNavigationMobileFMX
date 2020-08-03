@@ -1,0 +1,5 @@
+object FormItem: TFormItem
+  Size.Width = 330.000000000000000000
+  Size.Height = 452.000000000000000000
+  Size.PlatformDefault = False
+end

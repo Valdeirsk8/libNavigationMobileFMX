@@ -1,4 +1,4 @@
-unit uFormItem;
+﻿unit Unit1;
 
 
 interface
@@ -30,24 +30,22 @@ Type
     procedure Pop;
   end;
 
-//  TFormItemMenu = class(TFrame, IFormItem)
-//  public
-//    class function New():IFormItem; virtual; abstract;
-//    function GetLayoutPrincipal():TLayout; virtual; abstract;
-//    function Initialize():IFormItem; virtual; abstract;
-//    procedure afterInitialize(); virtual;
-//    procedure onHardwareBack(); virtual;
-//    procedure afterReturnToTop(); virtual;
-//    procedure Pop;
-//    function  GetAownerLayout:Tlayout;
-//    function  GetFormBase():IFormBase;
-//
-//  end;
+  TFormItemMenu = class(TFrame, IFormItem)
+  public
+    class function New():IFormItem; virtual; abstract;
+    function GetLayoutPrincipal():TLayout; virtual; abstract;
+    function Initialize():IFormItem; virtual; abstract;
+    procedure afterInitialize(); virtual;
+    procedure onHardwareBack(); virtual;
+    procedure afterReturnToTop(); virtual;
+    procedure Pop;
+    function  GetAownerLayout:Tlayout;
+    function  GetFormBase():IFormBase;
+
+  end;
 
 
 implementation
-
-{$R *.fmx}
 
 { TFormItem }
 
@@ -59,7 +57,7 @@ end;
 
 function TFormItem.GetAownerLayout: Tlayout;
 begin
-  Result := Self.GetFormBase.GetLayout();
+  Result := GetFormBase.GetLayout();
 end;
 
 function TFormItem.GetFormBase: IFormBase;
@@ -85,42 +83,42 @@ begin
 end;
 
 
-//{ TFormItemMenu }
-//
-//function TFormItemMenu.GetAownerLayout: Tlayout;
-//begin
-//  Result := Self.GetFormBase.GetLayoutMenu();
-//end;
-//
-//
-//function TFormItemMenu.GetFormBase: IFormBase;
-//begin
-//  if Supports(Self.Owner, IFormBase)
-//  then Result := (Self.Owner as IFormBase)
-//  else raise Exception.Create('Erro');
-//
-//end;
-//
-//procedure TFormItemMenu.afterInitialize();
-//begin
-//  //nothing to do
-//end;
-//
-//procedure TFormItemMenu.afterReturnToTop();
-//begin
-//  //nothing to do
-//end;
-//
-//
-//procedure TFormItemMenu.onHardwareBack;
-//begin
-//  Self.Pop();
-//end;
-//
-//procedure TFormItemMenu.Pop;
-//begin
-//  Self.GetFormBase.ListMenuForms.Pop();
-//
-//end;
+{ TFormItemMenu }
+
+function TFormItemMenu.GetAownerLayout: Tlayout;
+begin
+  Result := Self.GetFormBase.GetLayoutMenu();
+end;
+
+
+function TFormItemMenu.GetFormBase: IFormBase;
+begin
+  if Supports(Self.Owner, IFormBase)
+  then Result := (Self.Owner as IFormBase)
+  else raise Exception.Create('Erro');
+
+end;
+
+procedure TFormItemMenu.afterInitialize();
+begin
+  //nothing to do
+end;
+
+procedure TFormItemMenu.afterReturnToTop();
+begin
+  //nothing to do
+end;
+
+
+procedure TFormItemMenu.onHardwareBack;
+begin
+  Self.Pop();
+end;
+
+procedure TFormItemMenu.Pop;
+begin
+  Self.GetFormBase.ListMenuForms.Pop();
+
+end;
 
 end.
