@@ -3,9 +3,9 @@ unit uFrame3;
 interface
 
 uses
-  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants, 
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.StdCtrls,
-  FMX.Layouts, FMX.Objects, FMX.Controls.Presentation ,
+  FMX.Layouts, FMX.Objects, FMX.Controls.Presentation, FMX.DialogService.Async,
 
 
   uInterfaces, uFormItem; //Uses Adicionada manualmente;;
@@ -15,7 +15,7 @@ type
     lytPrincipal: TLayout;
     Rectangle1: TRectangle;
     lbCenter: TLabel;
-    procedure lbCenterClick(Sender: TObject);
+    procedure Rectangle1Tap(Sender: TObject; const Point: TPointF);
    private
     function GetLayoutPrincipal():TLayout; override;   //Metodo da Herança Obrigatório implementar
     function Initialize():IFormItem; override;         //Metodo da Herança Obrigatório implementar
@@ -47,14 +47,15 @@ begin
   Self.lbCenter.Text := 'I''m the last form, click on me to return!';
 end;
 
-procedure TfrmFrame3.lbCenterClick(Sender: TObject);
-begin
-  Self.Pop();
-end;
-
 class function TfrmFrame3.New(AOwner: TComponent): IFormItem;
 begin
   Result := TfrmFrame3.Create(AOwner);
+end;
+
+procedure TfrmFrame3.Rectangle1Tap(Sender: TObject; const Point: TPointF);
+begin
+  inherited;
+  Self.Pop();
 end;
 
 end.

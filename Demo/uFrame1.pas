@@ -40,7 +40,7 @@ begin
 
   lbCenter.Text := 'Hey, I''m back to the top, click on me te restart';
 
-  Self.GetFormBase.ListForms.CleanOut(True); //Limpa toda a pilha de form aberta e mantem o Form Setado como HomePage
+  //Self.GetFormBase.ListForms.CleanOut(True); //Limpa toda a pilha de form aberta e mantem o Form Setado como HomePage
 
 end;
 

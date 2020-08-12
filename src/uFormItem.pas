@@ -1,6 +1,5 @@
 unit uFormItem;
 
-
 interface
 
 Uses
@@ -8,11 +7,10 @@ Uses
 
   uInterfaces;
 
-
 Type
   TOperacao = (toNenhum, toIncluir, toAlterar, toRepetirProduto);
 
-  TFormItem = class(TFrame, IFormItem)
+  TFormItem = class(TForm, IFormItem)
   Strict Private
     FOwnerLayot:TLayout;
   public
@@ -41,15 +39,9 @@ Type
 //    procedure Pop;
 //    function  GetAownerLayout:Tlayout;
 //    function  GetFormBase():IFormBase;
-//
 //  end;
 
-
 implementation
-
-{$R *.fmx}
-
-{ TFormItem }
 
 procedure TFormItem.Pop;
 begin
@@ -64,9 +56,10 @@ end;
 
 function TFormItem.GetFormBase: IFormBase;
 begin
-  if Supports(Self.Owner, IFormBase) then Result := (Self.Owner as IFormBase)
-  else raise Exception.Create('Erro');
-
+  if Supports(Self.Owner, IFormBase) then
+    Result := (Self.Owner as IFormBase)
+  else
+    raise Exception.Create('Erro');
 end;
 
 procedure TFormItem.afterInitialize();

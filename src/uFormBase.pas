@@ -76,10 +76,10 @@ begin
     end;
 
     cnRemoved: begin
-      Item.GetAownerLayout().RemoveObject(Item.GetLayoutPrincipal());
-      Item.GetAownerLayout().AddObject(List.Peek().GetLayoutPrincipal());
+      List.Peek().GetAownerLayout().RemoveObject(Item.GetLayoutPrincipal());
+      List.Peek().GetAownerLayout().AddObject(List.Peek().GetLayoutPrincipal());
 
-      TFrame(Item).Free();
+      TFrame(Item).DisposeOf();
 
       list.Peek().afterReturnToTop;
     end;
@@ -88,6 +88,8 @@ begin
       //don't do nothing for now
     end;
   end;
+
+  List.TrimExcess;
 end;
 
 constructor TFormBase.Create(AOwner: TComponent);
@@ -104,6 +106,9 @@ destructor TFormBase.Destroy;
 begin
   FListForms.CleanOut();
   FreeAndNil(FListForms);
+
+  FListMenuForms.CleanOut();
+  FreeAndNil(FListMenuForms);
 end;
 
 

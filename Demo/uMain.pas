@@ -11,7 +11,8 @@ uses
 type
   TfrmMain = class(TFormBase)
     lytPrincipal: TLayout;
-    procedure FormCreate(Sender: TObject);  //Herança do Form Base adicionada manualmente
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);  //Herança do Form Base adicionada manualmente
   private
 
   public
@@ -42,6 +43,12 @@ begin
 
 end;
 
+procedure TfrmMain.FormDestroy(Sender: TObject);
+begin
+  inherited Destroy;
+  //
+end;
+
 function TfrmMain.GetLayout: TLayout;
 begin
   result :=  Self.lytPrincipal;
@@ -52,5 +59,8 @@ begin
   //Ainda não tem menu
   Result := nil;
 end;
+
+initialization
+  ReportMemoryLeaksOnShutdown := True;
 
 end.

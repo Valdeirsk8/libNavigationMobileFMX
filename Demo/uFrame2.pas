@@ -7,7 +7,7 @@ uses
   FMX.Types, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.StdCtrls,
   FMX.Layouts, FMX.Objects, FMX.Controls.Presentation,
 
-  uInterfaces, uFormItem ; //Uses Adicionada manualmente;
+  uInterfaces, uFormItem; //Uses Adicionada manualmente;
 
 type
   TfrmFrame2 = class(TFormItem)  //Herança adicionanda manualmente;
@@ -63,6 +63,7 @@ end;
 procedure TfrmFrame2.ClickOnInitialize(Sender: TObject);
 begin
   Self.GetFormBase.ListForms.Push(TfrmFrame3.New(Self.Owner));
+  //Self.Pop();
 end;
 
 procedure TfrmFrame2.ClickOnReturnToTop(Sender: TObject);

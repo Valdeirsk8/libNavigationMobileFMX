@@ -1,14 +1,22 @@
-inherited frmFrame1: TfrmFrame1
+object frmFrame1: TfrmFrame1
+  Left = 0
+  Top = 0
+  ClientHeight = 480
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop, iPhone, iPad]
+  DesignerMasterStyle = 0
   object lytPrincipal: TLayout
     Align = Client
-    Size.Width = 330.000000000000000000
-    Size.Height = 452.000000000000000000
+    Size.Width = 640.000000000000000000
+    Size.Height = 480.000000000000000000
     Size.PlatformDefault = False
     object Rectangle1: TRectangle
       Align = Contents
       Fill.Color = xFF4F74FF
-      Size.Width = 330.000000000000000000
-      Size.Height = 452.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 480.000000000000000000
       Size.PlatformDefault = False
       Stroke.Kind = None
       OnClick = lbCenterClick
